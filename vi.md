@@ -4,9 +4,9 @@ _Theo nguồn https://stackoverflow.com/questions/621884/database-development-mi
 
 **1. Không sử dụng các chỉ số thích hợp**
 
-Đây có vẻ là một lỗi khá cơ bản nhưng vẫn thường xuyên diễn ra. Các khóa ngoại nên có các chỉ mục trên chúng. Nếu bạn đang sử dụng trong từng trường hợp một.
+Đây có vẻ là một lỗi khá cơ bản nhưng vẫn thường xuyên diễn ra. Các khóa ngoại nên có các chỉ mục trên chúng. Nếu bạn đang sử dụng ~~trong từng trường hợp một~~ (*If you're using a field in a WHERE you should (probably) have an index on it* - **một trường trong lệnh WHERE bạn nên sử dụng chỉ mục trong câu lệnh này**)
 
-Vậy đâu là nơi mà bạn nên đánh dấu chỉ mục. Những chỉ mục này thường bao gồm những cột dựa trên truy vấn bạn cần thực hiện.
+~~Vậy đâu là nơi mà bạn nên đánh dấu chỉ mục~~. Những chỉ mục này thường bao gồm những cột dựa trên truy vấn bạn cần thực hiện.
 
 **2. Không thực thi ràng buộc tham chiếu**
 
@@ -50,7 +50,7 @@ Nguồn từ [Tại sao tôi ghét DISTINCT](http://weblogs.sqlteam.com/markc/ar
 
 **5. Khuyến khích tập hợp các kết nối**
 
-Các lỗi thường gặp khác ở các nhà phát triển ứng dụng cơ sở dữ liệu là không nhận ra cái giá của sự kết hơpj (Mệnh đề GROUP BY) có thể được so sánh để join.
+Các lỗi thường gặp khác ở các nhà phát triển ứng dụng cơ sở dữ liệu là không nhận ra ~~cái giá của sự kết hơpj (Mệnh đề GROUP BY) có thể được so sánh để join.~~ (**khi đem so sánh với nhau, các câu lệnh kết hợp với nhau sẽ tiêu tốn hơn so với các lệnh join (ví dụ Mệnh đề GROUP BY)**)
 
 Để cho bạn một ý tưởng về sức lan tỏa của nó, Tôi đã viết về chủ đề này rất nhiều lần và rất nhiều đã bị downvote. Ví dụ như:
 [Câu lệnh SQL - “join” vs “group by và having”](https://stackoverflow.com/questions/477006/sql-statement-join-vs-group-by-and-having/477013#477013)
@@ -67,12 +67,12 @@ SELECT t1.userid FROM userrole t1 JOIN userrole t2 ON t1.userid = t2.userid AND 
 
 > Thời gian truy vấn: 0.016 s
 
-> Đúng vậy, câu lệnh join mà tôi đề xuất **nhanh hơn gấp 12 lần so với câu lệnh tập hợp.**
+> Đúng vậy, câu lệnh join mà tôi đề xuất **nhanh hơn gấp ~~12~~(**20**) lần so với câu lệnh tập hợp.**
 
 **6. Không đơn giản hóa các truy vấn phức tạp thông qua các chế độ view**
 
 Không phải tất cả các nhà cung cấp cơ sở dữ liệu cũng hỗ trợ việc xem nhưng phần lớn là có, họ có thể đơn giản hóa các câu truy vấn nếu chúng được sử dụng một cách thận trọng. 
-Ví dụ, trong một dự án tôi đã sử dụng [generic Party model](http://www.tdan.com/view-articles/5014/) cho CRM. Đây là một kĩ thuật tạo model đầy mạnh mẽ và linh hoạt nhưng có thể kết nối nhiều join. Trong model này có những:
+Ví dụ, trong một dự án tôi đã sử dụng [generic Party model](http://www.tdan.com/view-articles/5014/) cho CRM. Đây là một kĩ thuật tạo model đầy mạnh mẽ và linh hoạt nhưng có thể kết nối nhiều join. Trong model này (**gồm**) có:
 
 - **Party**: người và tổ chức;
 - **Party Role**: những thứ mà người và tổ chức đóng vai trò, ví dụ như nhân viên và người sử dụng lao động;
@@ -86,7 +86,7 @@ Ví dụ:
 - Intel có nhiều vai trò, một trong số đó là Người quản lí nhân sự;
 - Intel thuê Ted, có nghĩa là có một mối quan hệ tương ứng giữa những vai trò đó.
 
-Vì có 5 bảng được join và kết nối vs Ted vs nhà tuyển dụng của anh ta. Bạn giả sử tất cả những Người lao động là Người(không phải tổ chức) và cung cấp chế độ trợ giúp:
+~~Vì~~ (**Nên sẽ**)có 5 bảng được join ~~và~~(**để**) kết nối vs Ted vs nhà tuyển dụng của anh ta. Bạn giả sử tất cả những Người lao động là Người(không phải tổ chức) và cung cấp chế độ trợ giúp:
 
 CREATE VIEW vw_employee AS
 SELECT p.title, p.given_names, p.surname, p.date_of_birth, p2.party_name employer_name
@@ -109,7 +109,7 @@ Dữ liệu được cung cấp bở người dùng bằng URLs, dữ liệu for
 **8. Không sử dụng các câu lệnh đã được có sẵn**
 
 Các câu lệnh đã có sẵn là khi bạn biên dịch một truy vấn trừ dữ liệu được sử dụng trong Insert, Update và 
-mệnh đề Where và sau đó cung cấp nó. Ví dụ như:
+mệnh đề Where và ~~sau đó cung cấp nó~~ (*then supply that later* - **và các phần được thêm vào sau nó**). Ví dụ như:
 
 SELECT * FROM users WHERE username = 'bob'
 
