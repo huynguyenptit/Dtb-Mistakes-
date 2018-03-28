@@ -66,7 +66,7 @@ SELECT t1.userid FROM userrole t1 JOIN userrole t2 ON t1.userid = t2.userid AND 
 
 > Thời gian truy vấn: 0.016 s
 
-> Đúng vậy, câu lệnh join mà tôi đề xuất **nhanh hơn gấp 12 lần so với câu lệnh tập hợp.**
+> Đúng vậy, câu lệnh join mà tôi đề xuất **nhanh hơn gấp 20 lần so với câu lệnh tập hợp.**
 
 **6. Không đơn giản hóa các truy vấn phức tạp thông qua các chế độ view**
 
