@@ -4,9 +4,8 @@ _Theo nguồn https://stackoverflow.com/questions/621884/database-development-mi
 
 **1. Không sử dụng các chỉ số thích hợp**
 
-Đây có vẻ là một lỗi khá cơ bản nhưng vẫn thường xuyên diễn ra. Các khóa ngoại nên có các chỉ mục trên chúng. Nếu bạn đang sử dụng trong từng trường hợp một.
-
-Vậy đâu là nơi mà bạn nên đánh dấu chỉ mục. Những chỉ mục này thường bao gồm những cột dựa trên truy vấn bạn cần thực hiện.
+Đây có vẻ là một lỗi khá cơ bản nhưng vẫn thường xuyên diễn ra. Các khóa ngoại nên có các chỉ mục trên chúng. Nếu bạn đang sử dụng trong *mệnh đề WHERE* bạn nên đánh dấu chỉ mục. 
+Những chỉ mục này thường bao gồm nhiều cột dựa trên truy vấn bạn cần thực hiện.
 
 **2. Không thực thi ràng buộc tham chiếu**
 
@@ -16,12 +15,12 @@ Dễ dàng có thể thấy được sự thiếu xót trên cơ sở dữ liệ
 
 Xem thêm tại đây:
 
-- [Những khó khăn như NOT NULL và FOREIGN KEY nghiêm trọng như thế nào nếu tôi luôn luôn kiểm soát đầu vào cơ sở dữ liệu của mình bằng PHP](https://stackoverflow.com/questions/382309/how-important-are-constraints-like-not-null-and-foreign-key-if-ill-always-contr)
+- [Những ràng buộc như NOT NULL và FOREIGN KEY nghiêm trọng như thế nào nếu tôi luôn luôn kiểm soát đầu vào cơ sở dữ liệu của mình bằng PHP](https://stackoverflow.com/questions/382309/how-important-are-constraints-like-not-null-and-foreign-key-if-ill-always-contr)
 - [Có phải những khóa ngoại thực sự quan trọng trong thiết kế cơ sở dữ liệu?](https://stackoverflow.com/questions/18717/are-foreign-keys-really-necessary-in-a-database-design)
 
 **3. Sử dụng Natural Primary Keys hay Surrogate Primary Keys**
 
-Khóa Natural là khóa dựa trên những dữ liệu bên ngoài có ý nghĩa và là duy nhất. Một ví dụ cơ bản là mã sản phẩm, mã bưu điện gồm 2 kí tự(US), số an sinh xã hội ..v.v. Surogate hoặc Technical Primary Keys là những điều không có ý nghĩa hoàn toàn bên ngoài hệ thống. Chúng được tạo ra để xác định thực thể, thông thường là các trường auto-incrementing (SQL Server, MySQL, ..v.v) hoặc các trình tự (nhất là Oracle).
+Khóa Natural là khóa dựa trên những dữ liệu bên ngoài có ý nghĩa và là duy nhất. Một ví dụ cơ bản là mã sản phẩm, mã b gồm 2 kí tự(US), số an sinh xã hội ..v.v. Surogate hoặc Technical Primary Keys là những điều không có ý nghĩa hoàn toàn bên ngoài hệ thống. Chúng được tạo ra để xác định thực thể, thông thường là các trường auto-incrementing (SQL Server, MySQL, ..v.v) hoặc các chuỗi (nhất là Oracle).
 
 Theo quan điểm của tôi, bạn hãy **luôn luôn** sử dụng Surrogate Keys. Vấn đề này đã được đưa ra trong những câu hỏi sau:
 
@@ -33,7 +32,7 @@ Theo quan điểm của tôi, bạn hãy **luôn luôn** sử dụng Surrogate K
 
 Đó là một vài chủ đề gây tranh cãi, ở đó bạn sẽ không nhận được toàn thể những đồng thuận. Trong khi bạn có thể thấy vài người nghĩ rằng Natural Key là ổn trong một vài trường hợp, bạn sẽ không tìm thấy bất kì sự chê bai nào về Surrogate Keys khác hơn là việc nó được cho là không cần thiết. Nó sẽ là một nhược điểm nhỏ nếu bạn hỏi tôi.
 
-Nhớ rằng, thậm trí [Các quốc gia có thể biến mất](http://en.wikipedia.org/wiki/ISO_3166-1) (ví dụ như, Yugoslavia)
+Nhớ rằng, thậm trí [Các quốc gia có thể biến mất](http://en.wikipedia.org/wiki/ISO_3166-1) (ví dụ như, Nam Tư)
 
 **4. Viết các truy vấn yêu cầu DISTINCT làm việc**
 
@@ -41,16 +40,16 @@ Bạn thường thấy điều này trong các truy vấn được tạo bởi O
 
 SELECT DISTINCT ...
 
-Đây là một cách viết để đảm bảo rằng bạn không phải nhận những dữ liệu trùng lặp (các đối tượng trùng lặp). Đôi lúc bạn sẽ thấy người ta làm điều này khá tốt. Nếu bạn thấy điều này quá nhiều thì thực ra nó chỉ là một cái cờ để đánh dấu. Chứ không phải DISTINCT không tốt hoặc giá trị không hợp lệ
-Nó là như vậy nhưng không phải là một **Surrogate** hoặc một **Stopgap** cho việc viết đúng các câu truy vấn.
+Đây là một cách viết để đảm bảo rằng bạn không phải nhận những dữ liệu trùng lặp (các đối tượng trùng lặp). Đôi lúc bạn sẽ thấy người ta làm điều này khá tốt. Nếu bạn thấy điều này quá nhiều thì thực ra nó thực sự đáng báo động. Chứ không phải DISTINCT không tốt hoặc giá trị không hợp lệ
+Nó tốt(cả 2 mặt) nhưng không phải là một **Surrogate** hoặc một **Stopgap** cho việc viết đúng các câu truy vấn.
 
 Nguồn từ [Tại sao tôi ghét DISTINCT](http://weblogs.sqlteam.com/markc/archive/2008/11/11/60752.aspx)
 
 > Theo quan điểm của tôi về nơi mọi thứ bắt đầu trở nên tồi tệ là khi 1 developer đang xây dựng lượng truy vấn đáng kể, join các bảng với nhau và đột nhiên anh ta nhận ra rằng nó **có vẻ** như anh ta đang lấy ra những hàng trùng lặp và ngay lập tức nghĩ ra giải pháp cho vấn đề này thông qua từ khóa DISTINCT và **Đá phăng** tất cả những rắc rối kia.
 
-**5. Khuyến khích tập hợp các kết nối**
+**5. Khuyến khích phép gộp hơn phép nối**
 
-Các lỗi thường gặp khác ở các nhà phát triển ứng dụng cơ sở dữ liệu là không nhận ra cái giá của sự kết hơpj (Mệnh đề GROUP BY) có thể được so sánh để join.
+Các lỗi thường gặp khác ở các nhà phát triển ứng dụng cơ sở dữ liệu là không nhận ra cái giá của sự phép hợp (Mệnh đề GROUP BY) có thể được so với phép join.
 
 Để cho bạn một ý tưởng về sức lan tỏa của nó, Tôi đã viết về chủ đề này rất nhiều lần và rất nhiều đã bị downvote. Ví dụ như:
 [Câu lệnh SQL - “join” vs “group by và having”](https://stackoverflow.com/questions/477006/sql-statement-join-vs-group-by-and-having/477013#477013)
@@ -75,7 +74,7 @@ Không phải tất cả các nhà cung cấp cơ sở dữ liệu cũng hỗ tr
 Ví dụ, trong một dự án tôi đã sử dụng [generic Party model](http://www.tdan.com/view-articles/5014/) cho CRM. Đây là một kĩ thuật tạo model đầy mạnh mẽ và linh hoạt nhưng có thể kết nối nhiều join. Trong model này có những:
 
 - **Party**: người và tổ chức;
-- **Party Role**: những thứ mà người và tổ chức đóng vai trò, ví dụ như nhân viên và người sử dụng lao động;
+- **Party Role**: những thứ mà người và tổ chức đóng vai trò, ví dụ như nhân viên và nhà tuyển dụng;
 - **Party Role Relationship**: làm thế nào những vai trò liên quan đến nhau.
 
 Ví dụ:
@@ -106,9 +105,9 @@ Và đột nhiên bạn có một cái nhìn rất đơn giản về dữ liệu
 
 Dữ liệu được cung cấp bở người dùng bằng URLs, dữ liệu form **và các Cookie** nên luôn luôn được coi là kẻ thù và cần được thanh lọc. Đảm bảo rằng bạn đang lấy những gì bạn muốn.
 
-**8. Không sử dụng các câu lệnh đã được có sẵn**
+**8. Không sử dụng các câu lệnh đã được chuẩn bị**
 
-Các câu lệnh đã có sẵn là khi bạn biên dịch một truy vấn trừ dữ liệu được sử dụng trong Insert, Update và 
+Các câu lệnh chuẩn bị là khi bạn biên dịch một truy vấn khuyết dữ liệu được sử dụng trong Insert, Update và 
 mệnh đề Where và sau đó cung cấp nó. Ví dụ như:
 
 SELECT * FROM users WHERE username = 'bob'
@@ -123,7 +122,7 @@ SELECT * FROM users WHERE username = :username
 
 tùy thuộc vào hệ thống của bạn.
 
-Tôi đã nhìn thấy những cơ sở dữ liệu dài đến tận đầu gối của khi họ làm cách này. Về cơ bản, mỗi khi cơ sở dữ liệu hiện đại gặp một truy vấn mới, nó phải biên dịch nó. Nếu nó gặp một truy vấn nó được nhìn thấy trước, bạn đang cho cơ sở dữ liệu cơ hội để cache truy vấn biên dịch và kế hoạch thực hiện. Bằng cách thực hiện các truy vấn rất nhiều bạn đang cho cơ sở dữ liệu cơ hội để trưng bày ra và tối ưu hóa cho phù hợp (ví dụ, bằng cách ghim các truy vấn biên dịch trong bộ nhớ).
+Tôi đã nhìn thấy những cơ sở dữ liệu bị phá hủy của khi họ làm cách này. Về cơ bản, mỗi khi cơ sở dữ liệu hiện đại gặp một truy vấn mới, nó phải biên dịch nó. Nếu nó gặp một truy vấn nó được nhìn thấy trước, bạn đang cho cơ sở dữ liệu cơ hội để cache truy vấn biên dịch và kế hoạch thực hiện. Bằng cách thực hiện các truy vấn rất nhiều bạn đang cho cơ sở dữ liệu cơ hội để tìm kiếm và tối ưu hóa cho phù hợp (ví dụ, bằng cách ghim các truy vấn biên dịch trong bộ nhớ).
 
 Sử dụng các câu lệnh có sẵn cũng sẽ cung cấp cho bạn số liệu thống kê có ý nghĩa về tần suất các truy vấn nhất định được sử dụng.
 
